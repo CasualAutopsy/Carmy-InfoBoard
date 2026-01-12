@@ -982,13 +982,41 @@ ${lines}
         subtle: false
       };
 
-      const dialog = el("div", { class: "ibs-dialog-overlay" }, [
-        el("div", { class: "ibs-dialog", onclick: (ev) => ev.stopPropagation() }, [])
-      ]);
+      const dialog = el("div", { class: "ibs-dialog-overlay" });
+dialog.style.cssText = `
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  right: 0 !important;
+  bottom: 0 !important;
+  z-index: 2147483649 !important;
+  background: rgba(0,0,0,0.7) !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  padding: 20px !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  overflow-y: auto !important;
+`;
+
+const dialogBox = el("div", { class: "ibs-dialog", onclick: (ev) => ev.stopPropagation() });
+dialogBox.style.cssText = `
+  position: relative !important;
+  z-index: 2147483650 !important;
+  max-height: 80vh !important;
+  max-width: 90vw !important;
+  width: 560px !important;
+  margin: auto !important;
+  overflow-y: auto !important;
+  -webkit-overflow-scrolling: touch !important;
+`;
+
+dialog.append(dialogBox);
 
       dialog.addEventListener("click", () => dialog.remove());
 
-      const box = dialog.querySelector(".ibs-dialog");
+      const box = dialogBox;
 
       const title = el("div", { class: "ibs-dialog-title" }, [mode === "edit" ? "Edit info" : "Add info"]);
       const hint = el("div", { class: "ibs-hint" }, [
